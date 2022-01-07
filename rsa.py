@@ -2,6 +2,7 @@ import math
 print("===========================================")
 print("RSA Encryption and Decryption")
 print("Simple Demonstration")
+
 # RSA Algorithm Simplified
 print("===========================================")
 dummy_flag = "SOFTWARICA{DUMMY_FLAG}"
@@ -10,7 +11,6 @@ print()
 print("Encoded Flag in ASCII DECIMAL:")
 print("===========================================")
 print()
-
 for i in dummy_flag:
     encoded_flag.append(ord(i))
 print("Original:")
@@ -23,6 +23,7 @@ N = p * q
 phi_n = (p - 1) * (q - 1)
 
 # For Public E
+
 """
 e must be smaller than phi_n and is co-prime of phi_n. 
 For Considered P = 2 and Q = 7 , N = 14, phi_n = 6 
@@ -57,8 +58,9 @@ print("Hence, e = ",e_encryption)
 print("Encryption Key (e,n):", f"{e_encryption,N}")
 print()
 final_encrypted_flag = []
+
 for i in encoded_flag:
-    encrypted_flag = i ** e_encryption % N
+    encrypted_flag = (i ** e_encryption) % N
     final_encrypted_flag.append(encrypted_flag)
 
 print("===========================================")
@@ -66,6 +68,7 @@ print("Encrypted ASCII: ")
 print(final_encrypted_flag)
 
 # For Decryption, we require decryption key
+
 """
 For calculating d, 
 Let's generate 10 multiples of e. 
@@ -77,13 +80,11 @@ print("===========================================")
 print("Decryption:")
 print("===========================================")
 print()
-multiples_of_e = []
 
-for i in range(1, 10):
-    multiples_of_e.append(i * e_encryption)
-print(multiples_of_e)
+d = 11
+final_decrypted_flag = []
+for i in final_encrypted_flag:
+    decrypted_flag = (i ** d) % phi_n
+    final_decrypted_flag.append(decrypted_flag)
 
-for i in multiples_of_e:
-    d_key = i * 1 % phi_n
-    if d_key == 1:
-        print(i)
+print(final_decrypted_flag)

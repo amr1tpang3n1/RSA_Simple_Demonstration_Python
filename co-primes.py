@@ -12,4 +12,4 @@ def coprime2(a, b):
     return bltin_gcd(a, b) == 1
 
 print(co_prime_calculation(phii_n=10))
-print(coprime2(3,10))
+print(coprime2(),10)
