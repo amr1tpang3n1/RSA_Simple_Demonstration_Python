@@ -1,90 +1,24 @@
-import math
-print("===========================================")
-print("RSA Encryption and Decryption")
-print("Simple Demonstration")
+# 2 Prime Numbers
+p = 7
+q = 17
 
-# RSA Algorithm Simplified
-print("===========================================")
-dummy_flag = "SOFTWARICA{DUMMY_FLAG}"
-encoded_flag = []
-print()
-print("Encoded Flag in ASCII DECIMAL:")
-print("===========================================")
-print()
-for i in dummy_flag:
-    encoded_flag.append(ord(i))
-print("Original:")
-print(encoded_flag)
+N = 7 * 17
 
-p, q = 2, 7
+print("N : ",N)
 
-N = p * q
+phi_N = (p-1)*(q-1)
+print("Phi N : ", phi_N)
 
-phi_n = (p - 1) * (q - 1)
+# No common factorials with
+Public_Key = 5
+D = 77
+Private_key = 77
+if ((D*Public_Key) % phi_N) == 1:
+    print("Yes")
+    Private_key = D
 
-# For Public E
+encryption = (83**Public_Key) % N
+print(encryption)
 
-"""
-e must be smaller than phi_n and is co-prime of phi_n. 
-For Considered P = 2 and Q = 7 , N = 14, phi_n = 6 
-so, e must be in range of 2*,3*,4*,5
-Only Possible Co-prime is 5 so, 
-e = 5
-Writing Algorithm for above task. 
-"""
-
-# Possible e
-range_list = []
-for i in range(phi_n):
-    if i != 1:
-        range_list.append(i)
-
-print()
-print("===========================================")
-print("The Possible values of e are:")
-print(range_list)
-print()
-print("===========================================")
-print("Finding the e that satisfy the condition")
-
-def co_prime_calculation(range_list, phi_n):
-    for i in range_list:
-        if math.gcd(i, phi_n) == 1:
-            return i
-
-e_encryption = co_prime_calculation(range_list, phi_n)
-print("Hence, e = ",e_encryption)
-
-print("Encryption Key (e,n):", f"{e_encryption,N}")
-print()
-final_encrypted_flag = []
-
-for i in encoded_flag:
-    encrypted_flag = (i ** e_encryption) % N
-    final_encrypted_flag.append(encrypted_flag)
-
-print("===========================================")
-print("Encrypted ASCII: ")
-print(final_encrypted_flag)
-
-# For Decryption, we require decryption key
-
-"""
-For calculating d, 
-Let's generate 10 multiples of e. 
-de = 1 mod phi_n
-"""
-
-print()
-print("===========================================")
-print("Decryption:")
-print("===========================================")
-print()
-
-d = 11
-final_decrypted_flag = []
-for i in final_encrypted_flag:
-    decrypted_flag = (i ** d) % phi_n
-    final_decrypted_flag.append(decrypted_flag)
-
-print(final_decrypted_flag)
+decryption = (104**Private_key) % N
+print(decryption)
