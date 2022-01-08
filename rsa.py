@@ -16,26 +16,28 @@ def compute_hcf(x, y):
 
 
 public_key = None
-for e in range(2, 200):
+for e in range(2, phi_n):
     if compute_hcf(e, phi_n) == 1:
         public_key = e
         break
 
 if public_key is None:
-    print("Increase the Range")
+    print("Unknown Error ... Exiting ")
     quit()
+
 else:
     print("Public Key: ", (public_key, N))
 
 private_key = None
-for d in range(2, 200):
+for d in range(2, phi_n):
     if (d * public_key) % phi_n == 1:
         private_key = d
         break
 
 if public_key is None:
-    print("Increase the Range")
+    print("Unknown Error ..., Exiting ")
     quit()
+
 else:
     print("Private Key: ", (private_key, N))
 # Let's Try using our generated keys to encrypt and decrypt
@@ -49,3 +51,4 @@ print(cipher_text)
 # Cipher text of above operation was 48
 plain_text = (48 ** private_key) % N
 print(plain_text)
+
