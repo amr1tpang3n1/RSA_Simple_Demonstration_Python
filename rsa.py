@@ -38,3 +38,14 @@ if public_key is None:
     quit()
 else:
     print("Private Key: ", (private_key, N))
+# Let's Try using our generated keys to encrypt and decrypt
+
+message = "Hello"
+lets_say = {"Hello": 20}
+
+cipher_text = (20 ** public_key) % N
+print(cipher_text)
+
+# Cipher text of above operation was 48
+plain_text = (48 ** private_key) % N
+print(plain_text)
