@@ -2,9 +2,14 @@
 
 class RSA_TOOL:
     def __init__(self):
-        print("=========================================================================================")
-        print("- Choose large prime numbers, RSA can't encrypt bigger numbers than its modulus.")
-        mode = input("Key generation (1), Encrypt with existing keys (2): ")
+        print("================================================"
+              "\n* --- --- --- --- --- --- --- ---- --- --- - *"
+              "\n !!!! Warning: "
+              "\n >> Choose Larger Prime Numbers."
+              "\n* --- --- --- --- --- --- --- ---- --- --- - *")
+        print("================================================")
+        print("1. Key generation\n2. Encryption/Decryption: ")
+        mode = input("Choose any one option :  ")
         if mode == '1':
             self.key_generation()
         elif mode == '2':
@@ -26,8 +31,9 @@ class RSA_TOOL:
         return x
 
     def key_generation(self):
-        p = input("Please Choose 1st Prime Number (1) : ")
-        q = input("Please Choose 2nd Prime Number (2) : ")
+        print("================================================")
+        p = input("Choose 1st Prime Number: ")
+        q = input("Choose 2nd Prime Number: ")
 
         try:
             p = int(p)
@@ -36,32 +42,39 @@ class RSA_TOOL:
         except Exception:
             print("Invalid Key, Program Exiting ... ")
 
-        if self.isprime(int(p)) and self.isprime(int(q)):
+        if self.isprime(int(p)) and self.isprime(int(q)) and p != 1 and q != 1:
             n = p * q
-            phi_n = (p - 1) * (q-1)
+            phi_n = (p - 1) * (q - 1)
 
             public_key = None
             for e in range(2, phi_n):
-                if compute_hcf(e, phi_n) == 1:
+                if self.compute_hcf(e, phi_n) == 1:
                     public_key = e
                     break
 
             if public_key is None:
-                print("Unknown Error ... ")
-                quit()
+                print("================================================")
+                print("Calculation not possible, Try larger primes")
 
             else:
-                print("Public Key: ", (public_key, N))
-
-            if public_key is None:
-                print("Unknown Error ...")
-                quit()
-
-            else:
-                print("Private Key: ", (private_key, N))
-
+                private_key = None
+                for d in range(2, phi_n):
+                    if (d * public_key) % phi_n == 1:
+                        private_key = d
+                        break
+                print(f"================================================\n"
+                      f"* --- --- --- --- --- --- --- ---- --- --- - *"
+                      f"\nPublic Key : \n {(public_key, n)} \n"
+                      f"* --- --- --- --- --- --- --- ---- --- --- - *"
+                      f"\nPrivate Key: \n {(private_key, n)} \n"
+                      f"* --- --- --- --- --- --- --- ---- --- --- - *\n"
+                      f"================================================")
         else:
-            print("Only Prime Numbers, Program Exiting ...")
+            print("================================================")
+            print("Given Numbers are not prime. Exiting ..")
+
+    def encryption(self):
+        pass
 
 
 obj = RSA_TOOL()
