@@ -1,24 +1,40 @@
-# 2 Prime Numbers
-p = 7
-q = 17
+# Simple Implementation of Rivest–Shamir–Adleman (RSA) Asymmetric Encryption
 
-N = 7 * 17
+P = 7
+Q = 11
 
-print("N : ",N)
+N = P * Q
+phi_n = (P - 1) * (Q - 1)
 
-phi_N = (p-1)*(q-1)
-print("Phi N : ", phi_N)
 
-# No common factorials with
-Public_Key = 5
-D = 77
-Private_key = 77
-if ((D*Public_Key) % phi_N) == 1:
-    print("Yes")
-    Private_key = D
+# Calculating HCF to find, Relatively prime numbers with phi_n
+# Euclidean Algorithm
+def compute_hcf(x, y):
+    while y:
+        x, y = y, x % y
+    return x
 
-encryption = (83**Public_Key) % N
-print(encryption)
 
-decryption = (104**Private_key) % N
-print(decryption)
+public_key = None
+for e in range(2, 200):
+    if compute_hcf(e, phi_n) == 1:
+        public_key = e
+        break
+
+if public_key is None:
+    print("Increase the Range")
+    quit()
+else:
+    print("Public Key: ", (public_key, N))
+
+private_key = None
+for d in range(2, 200):
+    if (d * public_key) % phi_n == 1:
+        private_key = d
+        break
+
+if public_key is None:
+    print("Increase the Range")
+    quit()
+else:
+    print("Private Key: ", (private_key, N))
