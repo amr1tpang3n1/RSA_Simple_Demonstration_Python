@@ -2,7 +2,7 @@
 import base64
 
 
-class RSA_TOOL:
+class RSA_Implementation:
     def __init__(self):
         print("================================================"
               "\n* --- --- --- --- --- --- --- ---- --- --- - *"
@@ -147,4 +147,5 @@ class RSA_TOOL:
             print("Plain text : ", plain_text)
 
 
-obj = RSA_TOOL()
+if __name__ == "__main__":
+    obj = RSA_Implementation()
