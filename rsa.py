@@ -1,4 +1,5 @@
 # Simple Implementation of Rivest–Shamir–Adleman (RSA) Asymmetric Encryption
+# Simple Demonstration file for understanding the algorithms
 
 P = 7
 Q = 11
