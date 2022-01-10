@@ -1,4 +1,6 @@
 # RSA TOOL FOR KEY GENERATION AND ENCRYPTION
+import base64
+
 
 class RSA_TOOL:
     def __init__(self):
@@ -13,7 +15,16 @@ class RSA_TOOL:
         if mode == '1':
             self.key_generation()
         elif mode == '2':
-            pass
+            print("================================================")
+            print("1. Encryption\n2. Decryption")
+            en_dc = input("Choose a option: ")
+            if en_dc == "1":
+                self.encryption()
+            elif en_dc == "2":
+                self.decryption()
+            else:
+                print("================================================")
+                print("Invalid Option, Exiting ... ")
         else:
             print("Invalid Mode, Program Exiting ... ")
 
@@ -73,8 +84,67 @@ class RSA_TOOL:
             print("================================================")
             print("Given Numbers are not prime. Exiting ..")
 
-    def encryption(self):
-        pass
+    @staticmethod
+    def encryption():
+        print("================================================")
+        print("Please Provide Encryption Key for Encryption: (e,N)")
+        print("================================================")
+        e = input("Provide value (e) : ")
+        N = input("Provide value (N) : ")
+        M = input("Message to Encrypt (m) : ")
+        print("================================================")
+        M = M.encode().hex()
+        M = int(M, 16)
+        try:
+            e = int(e)
+            N = int(N)
+        except Exception:
+            print("Wrong Key Provided, Exiting .. ")
+            print("================================================")
+
+        if M > N:
+            print("Choose large prime for key,\n your key can't encrypt the message.")
+            print("================================================")
+        else:
+            cipher_text = (M ** e) % N
+            cipher_text = str(cipher_text)
+            cipher_text = cipher_text.encode('ascii')
+            cipher_text = base64.b64encode(cipher_text)
+            cipher_text = cipher_text.decode('ascii')
+            print("Cipher text : ", cipher_text)
+
+    @staticmethod
+    def decryption():
+        print("================================================")
+        print("Please Provide Decryption Key: (d,N)")
+        print("================================================")
+        d = input("Provide value (d) : ")
+        N = input("Provide value (N) : ")
+        M = input("Cipher Text B64 (c) : ")
+        print("================================================")
+
+        M = M.encode('ascii')
+
+        try:
+            M = base64.b64decode(M)
+            M = int(M)
+            d = int(d)
+            N = int(N)
+        except Exception:
+            print("Wrong Key Provided")
+            quit()
+
+        if M > N:
+            print("Invalid Key, Can't Decrypt message.")
+            print("================================================")
+        else:
+            plain_text = (M ** d) % N
+            plain_text = format(plain_text, 'X')
+            byte_array = bytearray.fromhex(plain_text)
+            byte_array = byte_array.decode()
+            plain_text = byte_array
+
+            print("Plain text : ", plain_text)
 
 
 obj = RSA_TOOL()
