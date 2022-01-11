@@ -19,9 +19,11 @@ if __name__ == "__main__":
     start_range = input("Start: ")
     stop_range = input("Upto: ")
 
+    # noinspection PyBroadException
     try:
         start_range = int(start_range)
         stop_range = int(stop_range)
         print(prime_generator(start_range,stop_range))
+
     except Exception:
         print("Wrong Range Provided")
