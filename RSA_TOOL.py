@@ -73,13 +73,27 @@ class RSA_Implementation:
                     if (d * public_key) % phi_n == 1:
                         private_key = d
                         break
+                final_public_key = str((public_key, n))
+                final_private_key = str((private_key, n))
+                ####################################################
+                final_public_key = final_public_key.encode('ascii')
+                final_public_key = base64.b64encode(final_public_key)
+                final_public_key = final_public_key.decode('ascii')
+                ####################################################
+                final_private_key = final_private_key.encode('ascii')
+                final_private_key = base64.b64encode(final_private_key)
+                final_private_key = final_private_key.decode('ascii')
+
                 print(f"================================================\n"
                       f"* --- --- --- --- --- --- --- ---- --- --- - *"
-                      f"\nPublic Key : \n {(public_key, n)} \n"
+                      f"\nPublic Key: \n {final_public_key} \n"
                       f"* --- --- --- --- --- --- --- ---- --- --- - *"
-                      f"\nPrivate Key: \n {(private_key, n)} \n"
+                      f"\nPrivate Key: \n {final_private_key} \n"
                       f"* --- --- --- --- --- --- --- ---- --- --- - *\n"
                       f"================================================")
+
+                print()
+                print("Public Key :", (public_key, n), "\nPrivate Key :", (private_key, n))
         else:
             print("================================================")
             print("Given Numbers are not prime. Exiting ..")
@@ -87,26 +101,33 @@ class RSA_Implementation:
     @staticmethod
     def encryption():
         print("================================================")
-        print("Please Provide Encryption Key for Encryption: (e,N)")
+        message = input("Message to Encrypt (M) : ")
+        public_key = input("Encryption Key - B64 (E) : ")
         print("================================================")
-        e = input("Provide value (e) : ")
-        N = input("Provide value (N) : ")
-        M = input("Message to Encrypt (m) : ")
-        print("================================================")
-        M = M.encode().hex()
-        M = int(M, 16)
+
+        message = message.encode().hex()
+        message = int(message, 16)
+
+        public_key = public_key.encode('ascii')
+        public_key = base64.b64decode(public_key)
+        public_key = public_key.decode('ascii')
+        public_key = eval(public_key)
+
         try:
-            e = int(e)
-            N = int(N)
+            e = int(public_key[0])
+            N = int(public_key[1])
+
         except Exception:
             print("Wrong Key Provided, Exiting .. ")
             print("================================================")
+            quit()
 
-        if M > N:
+        if message > N:
             print("Choose large prime for key,\n your key can't encrypt the message.")
             print("================================================")
+
         else:
-            cipher_text = (M ** e) % N
+            cipher_text = (message ** e) % N
             cipher_text = str(cipher_text)
             cipher_text = cipher_text.encode('ascii')
             cipher_text = base64.b64encode(cipher_text)
@@ -118,18 +139,21 @@ class RSA_Implementation:
         print("================================================")
         print("Please Provide Decryption Key: (d,N)")
         print("================================================")
-        d = input("Provide value (d) : ")
-        N = input("Provide value (N) : ")
         M = input("Cipher Text B64 (c) : ")
+        private_key = input("Decryption Key B-64 (D) :")
         print("================================================")
+        private_key = private_key.encode('ascii')
+        private_key = base64.b64decode(private_key)
+        private_key = private_key.decode('ascii')
+        private_key = eval(private_key)
 
         M = M.encode('ascii')
 
         try:
             M = base64.b64decode(M)
             M = int(M)
-            d = int(d)
-            N = int(N)
+            d = int(private_key[0])
+            N = int(private_key[1])
         except Exception:
             print("Wrong Key Provided")
             quit()
